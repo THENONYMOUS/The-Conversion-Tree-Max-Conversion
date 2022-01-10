@@ -16,6 +16,7 @@ addLayer("mm", {
 		Main: {
 			content: [
 				"main-display",
+				["blank", "100px"],
 				["display-text", function() { return GetText("h2", "Conversion:", "#ffffff") }],
 				["display-text", function() {
 					return `${GetEffectText("h2", format(tmp[this.layer].conversionIn), tmp.m.color)} Multiplier -> ${GetEffectText("h2", format(tmp[this.layer].conversionOut), tmp[this.layer].color)} Mega Multiplier`
