@@ -8,6 +8,13 @@ addLayer("mm", {
     }},
     color: "#ac4df0",
     resource: "Mega Multiplier",
+	type: "custom",
+	requires() { return tmp[this.layer].conversionIn },
+	getNextAt() { return tmp[this.layer].conversionIn },
+	getResetGain() { return tmp[this.layer].conversionOut },
+	canReset() { return player.m.points.gte(tmp[this.layer].conversionIn) },
+	autoPrestige() { return true },
+	baseAmount() { return player.m.points },
     row: 0,
     layerShown(){return player.m.unlocked},
 	effect() { return player[this.layer].points.mul(2).max(1) },
@@ -20,7 +27,15 @@ addLayer("mm", {
 				["display-text", function() { return GetText("h2", "Conversion:", "#ffffff") }],
 				["display-text", function() {
 					return `${GetEffectText("h2", format(tmp[this.layer].conversionIn), tmp.m.color)} Multiplier -> ${GetEffectText("h2", format(tmp[this.layer].conversionOut), tmp[this.layer].color)} Mega Multiplier`
-				}]
+				}],
+				"blank",
+				["upgrades", 1],
+			],
+		},
+		Milestones: {
+			content: [
+				"main-display",
+				"milestones",
 			],
 		},
 	},
@@ -28,12 +43,50 @@ addLayer("mm", {
 		return new Decimal(1)
 	},
 	conversionIn() {
-		return new Decimal(1000)
+		let amount = new Decimal(1000)
+		if (hasUpgrade(this.layer, 11)) amount = amount.div(upgradeEffect(this.layer, 11))
+		return amount
 	},
-	update() {
-		if (player.m.points.gte(tmp[this.layer].conversionIn)) {
-			addPoints(this.layer, tmp[this.layer].conversionOut)
-			player.m.points = new Decimal(0)
+	upgrades: {
+		11: {
+			title: "Why not sooner?",
+			description: "Conversion is ten times as cheap",
+			cost: new Decimal(5),
+			effect() { return new Decimal(10) },
+			style() { return {"border-radius":"10px 10px 10px 10px"}}
+		},
+	},
+	milestones: {
+		0: {
+			requirementDescription: "2 Mega Multiplier",
+			effectDescription: "Keep the 1st Multiplier upgrade on MM resets.",
+			done() { return player.mm.points.gte(2) },
+			style() { return {"border-radius":"10px 10px 0px 0px"}}
+		},
+		1: {
+			requirementDescription: "4 Mega Multiplier",
+			effectDescription: "Keep the 2nd Multiplier upgrade on MM resets.",
+			done() { return player.mm.points.gte(4) },
+		},
+		2: {
+			requirementDescription: "6 Mega Multiplier",
+			effectDescription: "Keep the 3rd Multiplier upgrade on MM resets.",
+			done() { return player.mm.points.gte(6) },
+		},
+		3: {
+			requirementDescription: "10 Mega Multiplier",
+			effectDescription: "Keep the 4th Multiplier upgrade on MM resets.",
+			done() { return player.mm.points.gte(10) },
+			style() { return {"border-radius":"0px 0px 10px 10px"}}
+		},
+	},
+	doReset(layer) {
+		let keep = [];
+		if (layer == this.layer || layer == "m") {
+			keep.push("points")
+			keep.push("upgrades")
+			keep.push("milestones")
 		}
+		layerDataReset(this.layer, keep)
 	},
 })

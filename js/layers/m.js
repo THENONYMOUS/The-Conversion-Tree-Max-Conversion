@@ -8,6 +8,13 @@ addLayer("m", {
     }},
     color: "#9403fc",
     resource: "Multiplier",
+	type: "custom",
+	requires() { return tmp[this.layer].conversionIn },
+	getNextAt() { return tmp[this.layer].conversionIn },
+	getResetGain() { return tmp[this.layer].conversionOut },
+	canReset() { return player.points.gte(tmp[this.layer].conversionIn) },
+	autoPrestige() { return true },
+	baseAmount() { return player.points },
     row: 0,
     layerShown(){return true},
 	effect() { return player[this.layer].points.mul(2).max(1) },
@@ -45,12 +52,6 @@ addLayer("m", {
 		if (hasUpgrade(this.layer, 13)) amount = amount.div(upgradeEffect(this.layer, 13))
 		return amount
 	},
-	update() {
-		if (player.points.gte(tmp[this.layer].conversionIn)) {
-			addPoints(this.layer, tmp[this.layer].conversionOut)
-			player.points = new Decimal(0)
-		}
-	},
 	branches: ["mm"],
 	upgrades: {
 		11: {
@@ -65,14 +66,12 @@ addLayer("m", {
 			description: "Even more Cash gain",
 			cost: new Decimal(2),
 			effect() { return new Decimal(5) },
-			style() { return {"border-radius":"0px 0px 0px 0px"}}
 		},
 		13: {
 			title: "Cheap",
 			description: "Conversion is half as exspensive",
 			cost: new Decimal(5),
 			effect() { return new Decimal(2) },
-			style() { return {"border-radius":"0px 0px 0px 0px"}}
 		},
 		14: {
 			title: "Inflation?",
@@ -80,5 +79,17 @@ addLayer("m", {
 			cost: new Decimal(10),
 			style() { return {"border-radius":"0px 10px 10px 0px"}}
 		},
+	},
+	doReset(layer) {
+		let keep = [];
+		if (layer == this.layer) {
+			keep.push("points")
+			keep.push("upgrades")
+		}
+		layerDataReset(this.layer, keep)
+		if (hasMilestone("mm", 0)) player[this.layer].upgrades.push(11)
+		if (hasMilestone("mm", 1)) player[this.layer].upgrades.push(12)
+		if (hasMilestone("mm", 2)) player[this.layer].upgrades.push(13)
+		if (hasMilestone("mm", 3)) player[this.layer].upgrades.push(14)
 	},
 })

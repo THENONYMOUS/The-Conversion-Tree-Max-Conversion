@@ -13,13 +13,17 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.1",
-	name: "Release",
+	num: "0.15",
+	name: "More",
 }
 
-let changelog = `<h1>Changelog:</h1><br>
+let changelog = `<h1>Changelog:</h1><br><br>
+	<h3>v0.15</h3><br>
+		- Added more content to Mega Multiplier.
+	<br><br>
 	<h3>v0.1</h3><br>
-		- Added 2 layers.<br>`
+		- Added 2 layers.
+	<br>`
 
 let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
 
@@ -41,6 +45,7 @@ function getPointGen() {
 	if (hasUpgrade("m", 11)) gain = gain.mul(upgradeEffect("m", 11))
 	if (hasUpgrade("m", 12)) gain = gain.mul(upgradeEffect("m", 12))
 	if (hasUpgrade("m", 14)) gain = gain.mul(tmp.m.effect)
+	gain = gain.mul(tmp.mm.effect)
 	return gain
 }
 
@@ -48,10 +53,12 @@ function addedPlayerData() { return {
 }}
 
 var displayThings = [
+	"<br>",
+	function() { return `<h3>Current Endgame:</h3> ${GetEffectText("h3", 11, tmp.mm.color)} Mega Multiplier` },
 ]
 
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return player.mm.points.gte(new Decimal(11))
 }
 
 var backgroundStyle = {
