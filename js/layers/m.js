@@ -101,7 +101,7 @@ addLayer("m", {
 			currencyLayer: "mm",
 			currencyInternalName: "points",
 			currencyDisplayName: "Mega Multiplier",
-			cost: new Decimal(50),
+			cost: new Decimal(25),
 			effect() { return new Decimal(2) },
 			style() { return {"border-radius":"0px 10px 10px 0px"}},
 			unlocked() { return hasUpgrade("mm", 12) },

@@ -3,7 +3,7 @@ let modInfo = {
 	id: "TheConversionTree",
 	author: "Patfr",
 	pointsName: "Cash",
-	modFiles: ["layers/m.js", "layers/mm.js", "layers/em.js", "func.js", "tree.js"],
+	modFiles: ["layers/a.js", "layers/m.js", "layers/mm.js", "layers/em.js", "func.js", "tree.js"],
 
 	discordName: "My discord server",
 	discordLink: "https://discord.gg/7ahtMyv5hX",
@@ -13,14 +13,19 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.2",
-	name: "Extreme",
+	num: "0.25",
+	name: "Achivements",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3>v0.25</h3><br>
+	- Added achievements.<br>
+	- Changed 6th Multiplier upgrade price (50 -> 25).<br>
+	<br>
 	<h3>v0.2</h3><br>
 		- Added Extreme Multiplier.<br>
 		- Added more upgrades to Multiplier and Mega Multiplier layers.<br>
+	<br>
 	<h3>v0.15</h3><br>
 		- Added more content to Mega Multiplier.<br>
 	<br>
