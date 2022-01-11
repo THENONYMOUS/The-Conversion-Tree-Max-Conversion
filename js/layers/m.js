@@ -15,6 +15,7 @@ addLayer("m", {
 	canReset() { return player.points.gte(tmp[this.layer].conversionIn) },
 	autoPrestige() { return true },
 	baseAmount() { return player.points },
+	baseResource: "Cash",
     row: 0,
     layerShown(){return true},
 	effect() { return player[this.layer].points.mul(2).max(1) },
@@ -29,7 +30,9 @@ addLayer("m", {
 					return `${GetEffectText("h2", format(tmp[this.layer].conversionIn), modInfo.pointColor)} Cash -> ${GetEffectText("h2", format(tmp[this.layer].conversionOut), tmp[this.layer].color)} Multiplier`
 				}],
 				"blank",
-				["upgrades", 1],
+				["upgrades", [1]],
+				"blank",
+				["upgrades", [2]],
 			],
 		},
 		Disclaimer: {
@@ -45,21 +48,26 @@ addLayer("m", {
 		}
 	},
 	conversionOut() {
-		return new Decimal(1)
+		let amount = new Decimal(1)
+		if (hasUpgrade(this.layer, 21)) amount = amount.mul(upgradeEffect(this.layer, 21))
+		if (hasUpgrade(this.layer, 22)) amount = amount.mul(player.mm.points.max(1))
+		return amount
 	},
 	conversionIn() {
 		let amount = new Decimal(100)
 		if (hasUpgrade(this.layer, 13)) amount = amount.div(upgradeEffect(this.layer, 13))
 		return amount
 	},
-	branches: ["mm"],
+	branches: [
+		["mm", function() { return player.mm.unlocked ? "#a028f6" : "#303030" }, 25],
+	],
 	upgrades: {
 		11: {
 			title: "More",
 			description: "Increase Cash gain",
 			cost: new Decimal(1),
 			effect() { return new Decimal(2) },
-			style() { return {"border-radius":"10px 0px 0px 10px"}}
+			style() { return {"border-radius":"10px 0px 0px 10px"}},
 		},
 		12: {
 			title: "Greed",
@@ -77,7 +85,26 @@ addLayer("m", {
 			title: "Inflation?",
 			description: "Multiplier boosts Cash gain",
 			cost: new Decimal(10),
-			style() { return {"border-radius":"0px 10px 10px 0px"}}
+			style() { return {"border-radius":"0px 10px 10px 0px"}},
+		},
+		21: {
+			title: "Faster",
+			description: "Increase conversion gain",
+			cost: new Decimal(50),
+			effect() { return new Decimal(2) },
+			style() { return {"border-radius":"10px 0px 0px 10px"}},
+			unlocked() { return hasUpgrade("mm", 12) },
+		},
+		22: {
+			title: "Inflation",
+			description: "Mega Multiplier Increases conversion gain",
+			currencyLayer: "mm",
+			currencyInternalName: "points",
+			currencyDisplayName: "Mega Multiplier",
+			cost: new Decimal(50),
+			effect() { return new Decimal(2) },
+			style() { return {"border-radius":"0px 10px 10px 0px"}},
+			unlocked() { return hasUpgrade("mm", 12) },
 		},
 	},
 	doReset(layer) {
@@ -86,10 +113,10 @@ addLayer("m", {
 			keep.push("points")
 			keep.push("upgrades")
 		}
+		if (hasMilestone("mm", 3)) keep.push("upgrades")
 		layerDataReset(this.layer, keep)
-		if (hasMilestone("mm", 0)) player[this.layer].upgrades.push(11)
-		if (hasMilestone("mm", 1)) player[this.layer].upgrades.push(12)
-		if (hasMilestone("mm", 2)) player[this.layer].upgrades.push(13)
-		if (hasMilestone("mm", 3)) player[this.layer].upgrades.push(14)
+		if (hasMilestone("mm", 0) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(11)
+		if (hasMilestone("mm", 1) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(12)
+		if (hasMilestone("mm", 2) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(13)
 	},
 })

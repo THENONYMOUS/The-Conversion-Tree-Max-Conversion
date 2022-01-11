@@ -3,7 +3,7 @@ addLayer("mm", {
     symbol: "Mm",
     position: 1,
     startData() { return {
-        unlocked: true,
+        unlocked: false,
 		points: new Decimal(0),
     }},
     color: "#ac4df0",
@@ -15,6 +15,7 @@ addLayer("mm", {
 	canReset() { return player.m.points.gte(tmp[this.layer].conversionIn) },
 	autoPrestige() { return true },
 	baseAmount() { return player.m.points },
+	baseResource: "Multiplier",
     row: 0,
     layerShown(){return player.m.unlocked},
 	effect() { return player[this.layer].points.mul(2).max(1) },
@@ -47,13 +48,22 @@ addLayer("mm", {
 		if (hasUpgrade(this.layer, 11)) amount = amount.div(upgradeEffect(this.layer, 11))
 		return amount
 	},
+	branches: [
+		["em", function() { return player.em.unlocked ? "#af5cea" : "#303030" }, 25],
+	],
 	upgrades: {
 		11: {
 			title: "Why not sooner?",
 			description: "Conversion is ten times as cheap",
 			cost: new Decimal(5),
 			effect() { return new Decimal(10) },
-			style() { return {"border-radius":"10px 10px 10px 10px"}}
+			style() { return {"border-radius":"10px 0px 0px 10px"}},
+		},
+		12: {
+			title: "More?",
+			description: "Unlock 2nd row of Multiplier upgrades",
+			cost: new Decimal(10),
+			style() { return {"border-radius":"0px 10px 10px 0px"}}
 		},
 	},
 	milestones: {
@@ -75,7 +85,7 @@ addLayer("mm", {
 		},
 		3: {
 			requirementDescription: "10 Mega Multiplier",
-			effectDescription: "Keep the 4th Multiplier upgrade on MM resets.",
+			effectDescription: "Keep the all Multiplier upgrade on MM resets.",
 			done() { return player.mm.points.gte(10) },
 			style() { return {"border-radius":"0px 0px 10px 10px"}}
 		},
