@@ -56,7 +56,7 @@ function addedPlayerData() { return {
 
 var displayThings = [
 	"<br>",
-	function() { return `<h3>Current Endgame:</h3> ${GetEffectText("h3", 11, tmp.em.color)} Extreme Multiplier` },
+	function() { return `<h3>Current Endgame:</h3> ${GetEffectText("h3", 1, tmp.em.color)} Extreme Multiplier` },
 ]
 
 function isEndgame() {
