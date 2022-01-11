@@ -44,7 +44,7 @@ addLayer("mm", {
 		return new Decimal(1)
 	},
 	conversionIn() {
-		let amount = new Decimal(1000)
+		let amount = new Decimal(500)
 		if (hasUpgrade(this.layer, 11)) amount = amount.div(upgradeEffect(this.layer, 11))
 		return amount
 	},
@@ -54,9 +54,9 @@ addLayer("mm", {
 	upgrades: {
 		11: {
 			title: "Why not sooner?",
-			description: "Conversion is ten times as cheap",
+			description: "Conversion is five times as cheap",
 			cost: new Decimal(5),
-			effect() { return new Decimal(10) },
+			effect() { return new Decimal(5) },
 			style() { return {"border-radius":"10px 0px 0px 10px"}},
 		},
 		12: {
