@@ -5,6 +5,7 @@ addLayer("m", {
     startData() { return {
         unlocked: true,
 		points: new Decimal(0),
+		convert: true,
     }},
     color: "#9403fc",
     resource: "Multiplier",
@@ -13,7 +14,7 @@ addLayer("m", {
 	getNextAt() { return tmp[this.layer].conversionIn },
 	getResetGain() { return tmp[this.layer].conversionOut },
 	canReset() { return player.points.gte(tmp[this.layer].conversionIn) },
-	autoPrestige() { return true },
+	autoPrestige() { return player[this.layer].convert },
 	baseAmount() { return player.points },
 	baseResource: "Cash",
     row: 0,
@@ -29,6 +30,7 @@ addLayer("m", {
 				["display-text", function() {
 					return `${GetEffectText("h2", format(tmp[this.layer].conversionIn), modInfo.pointColor)} Cash -> ${GetEffectText("h2", format(tmp[this.layer].conversionOut), tmp[this.layer].color)} Multiplier`
 				}],
+				["toggle", ["m", "convert"]],
 				"blank",
 				["upgrades", [1]],
 				"blank",
@@ -77,7 +79,7 @@ addLayer("m", {
 		},
 		13: {
 			title: "Cheap",
-			description: "Conversion is half as exspensive",
+			description: "Multiplier is half as exspensive",
 			cost: new Decimal(5),
 			effect() { return new Decimal(2) },
 		},
@@ -89,7 +91,7 @@ addLayer("m", {
 		},
 		21: {
 			title: "Faster",
-			description: "Increase conversion gain",
+			description: "Increase Multiplier gain",
 			cost: new Decimal(50),
 			effect() { return new Decimal(2) },
 			style() { return {"border-radius":"10px 0px 0px 10px"}},
@@ -97,7 +99,7 @@ addLayer("m", {
 		},
 		22: {
 			title: "Inflation",
-			description: "Mega Multiplier Increases conversion gain",
+			description: "Mega Multiplier Increases Multiplier gain",
 			currencyLayer: "mm",
 			currencyInternalName: "points",
 			currencyDisplayName: "Mega Multiplier",

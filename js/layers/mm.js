@@ -5,6 +5,7 @@ addLayer("mm", {
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
+		convert: true,
     }},
     color: "#ac4df0",
     resource: "Mega Multiplier",
@@ -13,7 +14,7 @@ addLayer("mm", {
 	getNextAt() { return tmp[this.layer].conversionIn },
 	getResetGain() { return tmp[this.layer].conversionOut },
 	canReset() { return player.m.points.gte(tmp[this.layer].conversionIn) },
-	autoPrestige() { return true },
+	autoPrestige() { return player[this.layer].convert },
 	baseAmount() { return player.m.points },
 	baseResource: "Multiplier",
     row: 0,
@@ -29,6 +30,7 @@ addLayer("mm", {
 				["display-text", function() {
 					return `${GetEffectText("h2", format(tmp[this.layer].conversionIn), tmp.m.color)} Multiplier -> ${GetEffectText("h2", format(tmp[this.layer].conversionOut), tmp[this.layer].color)} Mega Multiplier`
 				}],
+				["toggle", ["mm", "convert"]],
 				"blank",
 				["upgrades", 1],
 			],
@@ -54,7 +56,7 @@ addLayer("mm", {
 	upgrades: {
 		11: {
 			title: "Why not sooner?",
-			description: "Conversion is five times as cheap",
+			description: "Mega Multiplier is five times as cheap",
 			cost: new Decimal(5),
 			effect() { return new Decimal(5) },
 			style() { return {"border-radius":"10px 0px 0px 10px"}},

@@ -5,6 +5,7 @@ addLayer("em", {
     startData() { return {
         unlocked: false,
 		points: new Decimal(0),
+		convert: true,
     }},
     color: "#b16be3",
     resource: "Extreme Multiplier",
@@ -13,7 +14,7 @@ addLayer("em", {
 	getNextAt() { return tmp[this.layer].conversionIn },
 	getResetGain() { return tmp[this.layer].conversionOut },
 	canReset() { return player.mm.points.gte(tmp[this.layer].conversionIn) },
-	autoPrestige() { return true },
+	autoPrestige() { return player[this.layer].convert },
 	baseAmount() { return player.mm.points },
 	baseResource: "Mega Multiplier",
     row: 0,
@@ -29,6 +30,7 @@ addLayer("em", {
 				["display-text", function() {
 					return `${GetEffectText("h2", format(tmp[this.layer].conversionIn), tmp.mm.color)} Mega Multiplier -> ${GetEffectText("h2", format(tmp[this.layer].conversionOut), tmp[this.layer].color)} Extreme Multiplier`
 				}],
+				["toggle", ["em", "convert"]],
 			],
 		},
 	},

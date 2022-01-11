@@ -13,11 +13,15 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.25",
+	num: "0.25b",
 	name: "Achivements",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3>v0.25b</h3><br>
+	- Added toggles to conversions.<br>
+	- Changed some upgrade descriptions for clarity.<br>
+	<br>
 	<h3>v0.25</h3><br>
 	- Added achievements.<br>
 	- Changed 6th Multiplier upgrade price (50 -> 25).<br>
