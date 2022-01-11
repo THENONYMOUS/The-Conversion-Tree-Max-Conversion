@@ -99,6 +99,7 @@ addLayer("mm", {
 			keep.push("upgrades")
 			keep.push("milestones")
 		}
+		keep.push("convert")
 		layerDataReset(this.layer, keep)
 	},
 })

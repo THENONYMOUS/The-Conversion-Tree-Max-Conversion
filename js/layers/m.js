@@ -116,6 +116,7 @@ addLayer("m", {
 			keep.push("upgrades")
 		}
 		if (hasMilestone("mm", 3)) keep.push("upgrades")
+		keep.push("convert")
 		layerDataReset(this.layer, keep)
 		if (hasMilestone("mm", 0) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(11)
 		if (hasMilestone("mm", 1) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(12)

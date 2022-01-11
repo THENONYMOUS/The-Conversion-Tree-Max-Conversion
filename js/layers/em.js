@@ -46,6 +46,7 @@ addLayer("em", {
 		if (layer == this.layer || layer == "m" || layer == "mm") {
 			keep.push("points")
 		}
+		keep.push("convert")
 		layerDataReset(this.layer, keep)
 	},
 })
