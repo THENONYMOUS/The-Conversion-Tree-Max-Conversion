@@ -3,7 +3,7 @@ let modInfo = {
 	id: "TheConversionTree",
 	author: "Patfr",
 	pointsName: "Cash",
-	modFiles: ["layers/a.js", "layers/m.js", "layers/mm.js", "layers/em.js", "func.js", "tree.js"],
+	modFiles: ["layers/a.js", "layers/m.js", "layers/mm.js", "layers/em.js", "layers/um.js", "func.js", "tree.js"],
 
 	discordName: "My discord server",
 	discordLink: "https://discord.gg/7ahtMyv5hX",
@@ -13,18 +13,22 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.25b",
-	name: "Achivements",
+	num: "0.3",
+	name: "Ultra",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3>v0.3</h3><br>
+		- Added a new layer.<br>
+		- Added more milestone and upgrades.<br>
+	<br>
 	<h3>v0.25b</h3><br>
-	- Added toggles to conversions.<br>
-	- Changed some upgrade descriptions for clarity.<br>
+		- Added toggles to conversions.<br>
+		- Changed some upgrade descriptions for clarity.<br>
 	<br>
 	<h3>v0.25</h3><br>
-	- Added achievements.<br>
-	- Changed 6th Multiplier upgrade price (50 -> 25).<br>
+		- Added achievements.<br>
+		- Changed 6th Multiplier upgrade price (50 -> 25).<br>
 	<br>
 	<h3>v0.2</h3><br>
 		- Added Extreme Multiplier.<br>
@@ -57,6 +61,7 @@ function getPointGen() {
 	if (hasUpgrade("m", 12)) gain = gain.mul(upgradeEffect("m", 12))
 	if (hasUpgrade("m", 14)) gain = gain.mul(tmp.m.effect)
 	gain = gain.mul(tmp.mm.effect)
+	gain = gain.mul(tmp.em.effect)
 	return gain
 }
 
@@ -65,7 +70,7 @@ function addedPlayerData() { return {
 
 var displayThings = [
 	"<br>",
-	function() { return `<h3>Current Endgame:</h3> ${GetEffectText("h3", 1, tmp.em.color)} Extreme Multiplier` },
+	function() { return `<h3>Current Endgame:</h3> ${GetEffectText("h3", 1, tmp.um.color)} Ultra Multiplier` },
 ]
 
 function isEndgame() {

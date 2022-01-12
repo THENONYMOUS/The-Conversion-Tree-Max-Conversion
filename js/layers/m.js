@@ -53,6 +53,7 @@ addLayer("m", {
 		let amount = new Decimal(1)
 		if (hasUpgrade(this.layer, 21)) amount = amount.mul(upgradeEffect(this.layer, 21))
 		if (hasUpgrade(this.layer, 22)) amount = amount.mul(player.mm.points.max(1))
+		amount = amount.mul(tmp.em.effect)
 		return amount
 	},
 	conversionIn() {
@@ -115,11 +116,16 @@ addLayer("m", {
 			keep.push("points")
 			keep.push("upgrades")
 		}
-		if (hasMilestone("mm", 3)) keep.push("upgrades")
+		if (hasMilestone("mm", 3) && layer != "em" && layer != "um") keep.push("upgrades")
+		if (hasMilestone("em", 3) && layer != "um") keep.push("upgrades")
 		keep.push("convert")
 		layerDataReset(this.layer, keep)
-		if (hasMilestone("mm", 0) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(11)
-		if (hasMilestone("mm", 1) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(12)
-		if (hasMilestone("mm", 2) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(13)
+		if (layer != "em" && layer != "um" || (layer != "um" || hasMilestone("em", 0))) {
+			if (hasMilestone("mm", 0) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(11)
+		}
+		if (layer != "em" && layer != "um") {
+			if (hasMilestone("mm", 1) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(12)
+			if (hasMilestone("mm", 2) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(13)
+		}
 	},
 })

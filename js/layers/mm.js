@@ -32,7 +32,9 @@ addLayer("mm", {
 				}],
 				["toggle", ["mm", "convert"]],
 				"blank",
-				["upgrades", 1],
+				["upgrades", [1]],
+				"blank",
+				["upgrades", [2]],
 			],
 		},
 		Milestones: {
@@ -43,7 +45,11 @@ addLayer("mm", {
 		},
 	},
 	conversionOut() {
-		return new Decimal(1)
+		let amount = new Decimal(1)
+		if (hasUpgrade(this.layer, 21)) amount = amount.mul(upgradeEffect(this.layer, 21))
+		if (hasUpgrade(this.layer, 22)) amount = amount.mul(upgradeEffect(this.layer, 22))
+		if (hasUpgrade("em", 12)) amount = amount.mul(tmp.em.effect)
+		return amount
 	},
 	conversionIn() {
 		let amount = new Decimal(500)
@@ -67,13 +73,29 @@ addLayer("mm", {
 			cost: new Decimal(10),
 			style() { return {"border-radius":"0px 10px 10px 0px"}}
 		},
+		21: {
+			title: "Double",
+			description: "Increase Mega Multiplier gain",
+			cost: new Decimal(50),
+			unlocked() { return hasMilestone("em", 0) },
+			effect() { return new Decimal(2) },
+			style() { return {"border-radius":"10px 0px 0px 10px"}}
+		},
+		22: {
+			title: "Twice?",
+			description: "Increase Mega Multiplier gain",
+			cost: new Decimal(500),
+			unlocked() { return hasMilestone("em", 0) },
+			effect() { return new Decimal(2) },
+			style() { return {"border-radius":"0px 10px 10px 0px"}}
+		},
 	},
 	milestones: {
 		0: {
 			requirementDescription: "2 Mega Multiplier",
 			effectDescription: "Keep the 1st Multiplier upgrade on MM resets.",
 			done() { return player.mm.points.gte(2) },
-			style() { return {"border-radius":"10px 10px 0px 0px"}}
+			style() { return {"border-radius":"10px 10px 0px 0px"}},
 		},
 		1: {
 			requirementDescription: "4 Mega Multiplier",
@@ -89,7 +111,7 @@ addLayer("mm", {
 			requirementDescription: "10 Mega Multiplier",
 			effectDescription: "Keep the all Multiplier upgrade on MM resets.",
 			done() { return player.mm.points.gte(10) },
-			style() { return {"border-radius":"0px 0px 10px 10px"}}
+			style() { return {"border-radius":"0px 0px 10px 10px"}},
 		},
 	},
 	doReset(layer) {
@@ -99,7 +121,11 @@ addLayer("mm", {
 			keep.push("upgrades")
 			keep.push("milestones")
 		}
+		if (hasMilestone("em", 3)) keep.push("milestones")
+		if (hasMilestone("em", 4)) keep.push("upgrades")
 		keep.push("convert")
 		layerDataReset(this.layer, keep)
+		if (hasMilestone("em", 1) && !hasMilestone("em", 3)) player[this.layer].milestones.push(0)
+		if (hasMilestone("em", 2) && !hasMilestone("em", 4)) player[this.layer].upgrades.push(11)
 	},
 })

@@ -20,7 +20,7 @@ addLayer("em", {
     row: 0,
     layerShown(){return player.mm.unlocked},
 	effect() { return player[this.layer].points.mul(2).max(1) },
-	effectDescription() { return `which boosts Cash gain by ${GetEffectText("h2", "x"+format(tmp[this.layer].effect), tmp[this.layer].color)}` },
+	effectDescription() { return `which boosts Cash and Multiplier gain by ${GetEffectText("h2", "x"+format(tmp[this.layer].effect), tmp[this.layer].color)}` },
 	tabFormat: {
 		Main: {
 			content: [
@@ -31,20 +31,86 @@ addLayer("em", {
 					return `${GetEffectText("h2", format(tmp[this.layer].conversionIn), tmp.mm.color)} Mega Multiplier -> ${GetEffectText("h2", format(tmp[this.layer].conversionOut), tmp[this.layer].color)} Extreme Multiplier`
 				}],
 				["toggle", ["em", "convert"]],
+				"blank",
+				["upgrades", [1]],
+			],
+		},
+		Milestones: {
+			content: [
+				"main-display",
+				"milestones",
 			],
 		},
 	},
 	conversionOut() {
-		return new Decimal(1)
+		let amount = new Decimal(1)
+		if (hasUpgrade(this.layer, 13)) amount = amount.mul(upgradeEffect(this.layer, 13))
+		return amount
 	},
 	conversionIn() {
 		let amount = new Decimal(1000)
+		if (hasUpgrade(this.layer, 11)) amount = amount.div(upgradeEffect(this.layer, 11))
 		return amount
+	},
+	branches: [
+		["um", function() { return player.um.unlocked ? "#b77ae3" : "#303030" }, 25],
+	],
+	upgrades: {
+		11: {
+			title: "Easy?",
+			description: "Extreme Multiplier is four times as cheap",
+			cost: new Decimal(4),
+			effect() { return new Decimal(4) },
+			style() { return {"border-radius":"10px 0px 0px 10px"}},
+		},
+		12: {
+			title: "Extreme boost",
+			description: "Extreme Multiplier boosts Mega Multiplier gain",
+			cost: new Decimal(25),
+		},
+		13: {
+			title: "Ten",
+			description: "x10 Extreme Multiplier gain",
+			cost: new Decimal(100),
+			effect() { return new Decimal(10) },
+			style() { return {"border-radius":"0px 10px 10px 0px"}},
+		},
+	},
+	milestones: {
+		0: {
+			requirementDescription: "1 Extreme Multiplier",
+			effectDescription: "Unlock 2nd row of Mega Multiplier upgrades.",
+			done() { return player.em.points.gte(1) },
+			style() { return {"border-radius":"10px 10px 0px 0px"}}
+		},
+		1: {
+			requirementDescription: "2 Extreme Multiplier",
+			effectDescription: "Keep the 1st Mega Multiplier milestone on EM resets.",
+			done() { return player.em.points.gte(2) },
+		},
+		2: {
+			requirementDescription: "3 Extreme Multiplier",
+			effectDescription: "Keep the 1st Mega Multiplier upgrade on EM resets.",
+			done() { return player.em.points.gte(3) },
+		},
+		3: {
+			requirementDescription: "4 Extreme Multiplier",
+			effectDescription: "Keep all Mega Multiplier milestones on EM resets.",
+			done() { return player.em.points.gte(4) },
+		},
+		4: {
+			requirementDescription: "10 Extreme Multiplier",
+			effectDescription: "Keep all Mega Multiplier upgrades on EM resets.",
+			done() { return player.em.points.gte(10) },
+			style() { return {"border-radius":"0px 0px 10px 10px"}}
+		},
 	},
 	doReset(layer) {
 		let keep = [];
 		if (layer == this.layer || layer == "m" || layer == "mm") {
 			keep.push("points")
+			keep.push("milestones")
+			keep.push("upgrades")
 		}
 		keep.push("convert")
 		layerDataReset(this.layer, keep)
