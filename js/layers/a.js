@@ -120,13 +120,13 @@ addLayer("a", {
 		42: {
 			name: "Free??",
 			done() { return hasMilestone("um", 0) },
-			tooltip: "Get the 1st Extreme Multiplier milestone",
+			tooltip: "Get the 1st Ultra Multiplier milestone",
 			unlocked() { return player.um.unlocked },
 		},
 		43: {
 			name: "Keep",
 			done() { return hasMilestone("um", 2) },
-			tooltip: "Get the 3rd Extreme Multiplier milestone",
+			tooltip: "Get the 3rd Ultra Multiplier milestone",
 			unlocked() { return player.um.unlocked },
 		},
 		44: {
@@ -137,7 +137,7 @@ addLayer("a", {
 		},
 		45: {
 			name: "Overflow",
-			done() { return hasUpgrade("em", 13) },
+			done() { return hasUpgrade("um", 13) },
 			tooltip: "Get the 3rd Ultra Multiplier upgrade",
 			style() { return player.r.unlocked ? {"border-radius":"0px 0px 10px 0px"} : {"border-radius":"0px 0px 10px 0px"} },
 			unlocked() { return player.um.unlocked },
