@@ -13,11 +13,18 @@ let modInfo = {
 }
 
 let VERSION = {
-	num: "0.3",
-	name: "Ultra",
+	num: "0.35",
+	name: "Fixes & changes",
 }
 
 let changelog = `<h1>Changelog:</h1><br><br>
+	<h3>v0.35</h3><br>
+		- Changed 4th EM milestone to also keep 2nd MM upgrade.<br>
+		- Fixed incorrect tooltip for an achievement.<br>
+		- Reworked code for layer reset.<br>
+		- Changed when to show achievements.<br>
+		- Achievement layer now shows how many you have done out of all there are.<br>
+	<br>
 	<h3>v0.3</h3><br>
 		- Added a new layer.<br>
 		- Added more milestone and upgrades.<br>

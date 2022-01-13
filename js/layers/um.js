@@ -17,7 +17,8 @@ addLayer("um", {
 	autoPrestige() { return player[this.layer].convert },
 	baseAmount() { return player.em.points },
 	baseResource: "Extreme Multiplier",
-    row: 0,
+    row: 3,
+	displayRow: 0,
     layerShown(){return player.em.unlocked},
 	//effect() { return player[this.layer].points.mul(2).max(1) },
 	//effectDescription() { return `which boosts Cash and Multiplier gain by ${GetEffectText("h2", "x"+format(tmp[this.layer].effect), tmp[this.layer].color)}` },
@@ -43,7 +44,7 @@ addLayer("um", {
 	},
 	doReset(layer) {
 		let keep = [];
-		if (layer == this.layer || layer == "m" || layer == "mm" || layer == "em") {
+		if (layer == this.layer) {
 			keep.push("points")
 		}
 		keep.push("convert")

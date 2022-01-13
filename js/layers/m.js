@@ -18,6 +18,7 @@ addLayer("m", {
 	baseAmount() { return player.points },
 	baseResource: "Cash",
     row: 0,
+	displayRow: 0,
     layerShown(){return true},
 	effect() { return player[this.layer].points.mul(2).max(1) },
 	effectDescription() { return hasUpgrade(this.layer, 14) ?`which boosts Cash gain by ${GetEffectText("h2", "x"+format(tmp[this.layer].effect), tmp[this.layer].color)}` : "" },
@@ -116,16 +117,14 @@ addLayer("m", {
 			keep.push("points")
 			keep.push("upgrades")
 		}
-		if (hasMilestone("mm", 3) && layer != "em" && layer != "um") keep.push("upgrades")
-		if (hasMilestone("em", 3) && layer != "um") keep.push("upgrades")
+		if (hasMilestone("mm", 3)) keep.push("upgrades")
+		if (hasMilestone("em", 3)) keep.push("upgrades")
 		keep.push("convert")
 		layerDataReset(this.layer, keep)
-		if (layer != "em" && layer != "um" || (layer != "um" || hasMilestone("em", 0))) {
-			if (hasMilestone("mm", 0) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(11)
-		}
-		if (layer != "em" && layer != "um") {
-			if (hasMilestone("mm", 1) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(12)
-			if (hasMilestone("mm", 2) && !hasMilestone("mm", 3)) player[this.layer].upgrades.push(13)
+		if (!hasMilestone("mm", 3)) {
+			if (hasMilestone("mm", 0)) player[this.layer].upgrades.push(11)
+			if (hasMilestone("mm", 1)) player[this.layer].upgrades.push(12)
+			if (hasMilestone("mm", 2)) player[this.layer].upgrades.push(13)
 		}
 	},
 })

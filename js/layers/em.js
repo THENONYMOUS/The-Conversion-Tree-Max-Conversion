@@ -17,7 +17,8 @@ addLayer("em", {
 	autoPrestige() { return player[this.layer].convert },
 	baseAmount() { return player.mm.points },
 	baseResource: "Mega Multiplier",
-    row: 0,
+    row: 2,
+	displayRow: 0,
     layerShown(){return player.mm.unlocked},
 	effect() { return player[this.layer].points.mul(2).max(1) },
 	effectDescription() { return `which boosts Cash and Multiplier gain by ${GetEffectText("h2", "x"+format(tmp[this.layer].effect), tmp[this.layer].color)}` },
@@ -95,7 +96,7 @@ addLayer("em", {
 		},
 		3: {
 			requirementDescription: "4 Extreme Multiplier",
-			effectDescription: "Keep all Mega Multiplier milestones on EM resets.",
+			effectDescription: "Keep all Mega Multiplier milestones and 2nd Mega Multiplier upgrade on EM resets.",
 			done() { return player.em.points.gte(4) },
 		},
 		4: {
@@ -107,7 +108,7 @@ addLayer("em", {
 	},
 	doReset(layer) {
 		let keep = [];
-		if (layer == this.layer || layer == "m" || layer == "mm") {
+		if (layer == this.layer) {
 			keep.push("points")
 			keep.push("milestones")
 			keep.push("upgrades")

@@ -17,7 +17,8 @@ addLayer("mm", {
 	autoPrestige() { return player[this.layer].convert },
 	baseAmount() { return player.m.points },
 	baseResource: "Multiplier",
-    row: 0,
+    row: 1,
+	displayRow: 0,
     layerShown(){return player.m.unlocked},
 	effect() { return player[this.layer].points.mul(2).max(1) },
 	effectDescription() { return `which boosts Cash gain by ${GetEffectText("h2", "x"+format(tmp[this.layer].effect), tmp[this.layer].color)}` },
@@ -116,7 +117,7 @@ addLayer("mm", {
 	},
 	doReset(layer) {
 		let keep = [];
-		if (layer == this.layer || layer == "m") {
+		if (layer == this.layer) {
 			keep.push("points")
 			keep.push("upgrades")
 			keep.push("milestones")
@@ -127,5 +128,6 @@ addLayer("mm", {
 		layerDataReset(this.layer, keep)
 		if (hasMilestone("em", 1) && !hasMilestone("em", 3)) player[this.layer].milestones.push(0)
 		if (hasMilestone("em", 2) && !hasMilestone("em", 4)) player[this.layer].upgrades.push(11)
+		if (hasMilestone("em", 3) && !hasMilestone("em", 4)) player[this.layer].upgrades.push(12)
 	},
 })
