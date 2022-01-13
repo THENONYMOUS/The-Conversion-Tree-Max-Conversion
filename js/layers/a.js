@@ -12,7 +12,7 @@ addLayer("a", {
 	tabFormat: [
 		["display-text", "<h1>Achievements</h1>"],
 		"blank",
-		["display-text", function() { return `You have completed ${GetText("h3", player.a.achievements.length, "#ffff00")} out of ${GetText("h3", 15, "#ffff00")} achievements` }],
+		["display-text", function() { return `You have completed ${GetText("h3", player.a.achievements.length, "#ffff00")} out of ${GetText("h3", 20, "#ffff00")} achievements` }],
 		"achievements",
 	],
 	achievements: {
@@ -81,7 +81,7 @@ addLayer("a", {
 			name: "Extreme",
 			done() { return player.em.points.gte(1) },
 			tooltip: "Get 1 Extreme Multiplier",
-			style() { return player.um.unlocked ? {"border-radius":"0px 0px 0px 10px"} : {"border-radius":"0px 0px 0px 10px"} },
+			style() { return player.um.unlocked ? {"border-radius":"0px 0px 0px 0px"} : {"border-radius":"0px 0px 0px 10px"} },
 			unlocked() { return player.em.unlocked },
 		},
 		32: {
@@ -106,8 +106,41 @@ addLayer("a", {
 			name: "A lot",
 			done() { return hasUpgrade("em", 13) },
 			tooltip: "Get the 3rd Extreme Multiplier upgrade",
-			style() { return player.um.unlocked ? {"border-radius":"0px 0px 10px 0px"} : {"border-radius":"0px 0px 10px 0px"} },
+			style() { return player.um.unlocked ? {"border-radius":"0px 0px 0px 0px"} : {"border-radius":"0px 0px 10px 0px"} },
 			unlocked() { return player.em.unlocked },
+		},
+
+		41: {
+			name: "Ultra",
+			done() { return player.em.points.gte(1) },
+			tooltip: "Get 1 Ultra Multiplier",
+			style() { return player.r.unlocked ? {"border-radius":"0px 0px 0px 10px"} : {"border-radius":"0px 0px 0px 10px"} },
+			unlocked() { return player.um.unlocked },
+		},
+		42: {
+			name: "Free??",
+			done() { return hasMilestone("um", 0) },
+			tooltip: "Get the 1st Extreme Multiplier milestone",
+			unlocked() { return player.um.unlocked },
+		},
+		43: {
+			name: "Keep",
+			done() { return hasMilestone("um", 2) },
+			tooltip: "Get the 3rd Extreme Multiplier milestone",
+			unlocked() { return player.um.unlocked },
+		},
+		44: {
+			name: "2.50000001",
+			done() { return hasUpgrade("um", 11) },
+			tooltip: "Get the 1st Ultra Multiplier upgrade",
+			unlocked() { return player.um.unlocked },
+		},
+		45: {
+			name: "Overflow",
+			done() { return hasUpgrade("em", 13) },
+			tooltip: "Get the 3rd Ultra Multiplier upgrade",
+			style() { return player.r.unlocked ? {"border-radius":"0px 0px 10px 0px"} : {"border-radius":"0px 0px 10px 0px"} },
+			unlocked() { return player.um.unlocked },
 		},
 	},
 })

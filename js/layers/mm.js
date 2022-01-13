@@ -50,6 +50,7 @@ addLayer("mm", {
 		if (hasUpgrade(this.layer, 21)) amount = amount.mul(upgradeEffect(this.layer, 21))
 		if (hasUpgrade(this.layer, 22)) amount = amount.mul(upgradeEffect(this.layer, 22))
 		if (hasUpgrade("em", 12)) amount = amount.mul(tmp.em.effect)
+		if (hasUpgrade("um", 12)) amount = amount.mul(tmp.um.effect)
 		return amount
 	},
 	conversionIn() {
@@ -124,9 +125,12 @@ addLayer("mm", {
 		}
 		if (hasMilestone("em", 3)) keep.push("milestones")
 		if (hasMilestone("em", 4)) keep.push("upgrades")
+		if (hasMilestone("um", 2)) keep.push("milestones")
 		keep.push("convert")
 		layerDataReset(this.layer, keep)
-		if (hasMilestone("em", 1) && !hasMilestone("em", 3)) player[this.layer].milestones.push(0)
+		if (!hasMilestone("em", 3) && !hasMilestone("um", 2)) {
+			if (hasMilestone("em", 1)) player[this.layer].milestones.push(0)
+		}
 		if (hasMilestone("em", 2) && !hasMilestone("em", 4)) player[this.layer].upgrades.push(11)
 		if (hasMilestone("em", 3) && !hasMilestone("em", 4)) player[this.layer].upgrades.push(12)
 	},

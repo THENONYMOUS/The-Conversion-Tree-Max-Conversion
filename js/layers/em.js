@@ -46,6 +46,7 @@ addLayer("em", {
 	conversionOut() {
 		let amount = new Decimal(1)
 		if (hasUpgrade(this.layer, 13)) amount = amount.mul(upgradeEffect(this.layer, 13))
+		if (hasUpgrade("um", 12)) amount = amount.mul(tmp.um.effect)
 		return amount
 	},
 	conversionIn() {
@@ -113,7 +114,13 @@ addLayer("em", {
 			keep.push("milestones")
 			keep.push("upgrades")
 		}
+		if (hasMilestone("um", 3)) keep.push("milestones")
+		if (hasMilestone("um", 6)) keep.push("upgrades")
 		keep.push("convert")
 		layerDataReset(this.layer, keep)
+		if (!hasMilestone("um", 6)) {
+			if (hasMilestone("um", 4)) player[this.layer].upgrades.push(11)
+			if (hasMilestone("um", 5)) player[this.layer].upgrades.push(12)
+		}
 	},
 })
