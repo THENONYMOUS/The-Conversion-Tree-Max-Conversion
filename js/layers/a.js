@@ -112,7 +112,7 @@ addLayer("a", {
 
 		41: {
 			name: "Ultra",
-			done() { return player.em.points.gte(1) },
+			done() { return player.um.points.gte(1) },
 			tooltip: "Get 1 Ultra Multiplier",
 			style() { return player.r.unlocked ? {"border-radius":"0px 0px 0px 10px"} : {"border-radius":"0px 0px 0px 10px"} },
 			unlocked() { return player.um.unlocked },
