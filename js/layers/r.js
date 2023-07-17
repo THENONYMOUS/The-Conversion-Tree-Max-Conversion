@@ -12,7 +12,7 @@ addLayer("r", {
 	type: "custom",
 	requires() { return tmp[this.layer].conversionIn },
 	getNextAt() { return tmp[this.layer].conversionIn },
-	getResetGain() { return tmp[this.layer].conversionOut },
+	getResetGain() { return tmp[this.layer].conversionOut.times(tmp[this.layer].baseAmount.div(tmp[this.layer].requires).floor()) },
 	canReset() { return player.um.points.gte(tmp[this.layer].conversionIn) },
 	autoPrestige() { return player[this.layer].convert },
 	baseAmount() { return player.um.points },
