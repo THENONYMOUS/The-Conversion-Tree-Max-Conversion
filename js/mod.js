@@ -1,7 +1,7 @@
 let modInfo = {
 	name: "The Conversion Tree",
-	id: "TheConversionTree",
-	author: "Patfr",
+	id: "TheConversionTreeMaxConversion",
+	author: "Patfr -> Thenonymous",
 	pointsName: "Cash",
 	modFiles: ["layers/a.js", "layers/m.js", "layers/mm.js", "layers/em.js", "layers/um.js", "layers/r.js", "func.js", "tree.js"],
 
